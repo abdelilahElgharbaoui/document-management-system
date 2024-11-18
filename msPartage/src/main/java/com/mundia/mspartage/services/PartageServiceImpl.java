@@ -29,18 +29,21 @@ public class PartageServiceImpl implements PartageService {
         return partages.stream().map(partage -> {
             // Fetch DocumentDTO using WebClient
             DocumentDTO document = webClient.get()
-                    .uri("http://MSDOCUMENT/api/documents/" + partage.getDocumentId())
+                    .uri("http://MSDOCUMENTS/api/documents/" + partage.getDocumentId())
                     .retrieve()
                     .bodyToMono(DocumentDTO.class)
                     .block(); // Blocking call
 
+            System.out.println(document);
+
             // Fetch UserDTO using WebClient
             UserDTO user = webClient.get()
-                    .uri("http://MSUTILISATEUR:8081/api/users/" + partage.getUtilisateurId())
+                    .uri("http://MSUTILISATEUR/api/users/" + partage.getUtilisateurId())
                     .retrieve()
                     .bodyToMono(UserDTO.class)
                     .block(); // Blocking call
 
+            System.out.println();
             // Map to PartageDTO
             PartageDTO partageDTO = new PartageDTO();
             BeanUtils.copyProperties(partage, partageDTO);

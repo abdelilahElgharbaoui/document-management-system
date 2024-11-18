@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class UserReq {
+    private Long id;
     private String nom;
+    private String prenom;
     private String email;
+
 }

@@ -1,5 +1,6 @@
 package com.mundia.msdocuments.web;
 
+import com.mundia.msdocuments.dto.DocumentDTO;
 import com.mundia.msdocuments.dto.DocumentReq;
 import com.mundia.msdocuments.entities.Document;
 import com.mundia.msdocuments.services.DocumentService;
@@ -23,19 +24,20 @@ public class DocumentController {
 
     // Get a document by ID
     @GetMapping("/{id}")
-    public Document getDocumentById(@PathVariable Long id) {
+    public DocumentDTO getDocumentById(@PathVariable Long id) {
         return documentService.getDocumentById(id);
     }
 
     // Get all documents
     @GetMapping("/all")
-    public List<Document> getAllDocuments() {
+    public List<DocumentDTO> getAllDocuments() {
+
         return documentService.getAllDocuments();
     }
 
     // Get documents by title
     @GetMapping("/title/{title}")
-    public List<Document> getDocumentsByTitle(@PathVariable String title) {
+    public List<DocumentDTO> getDocumentsByTitle(@PathVariable String title) {
         return documentService.getDocumentByTitle(title);
     }
 

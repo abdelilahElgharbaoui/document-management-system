@@ -25,6 +25,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Désactivation de la protection CSRF
                 .authorizeHttpRequests( auth->auth
                         .requestMatchers("/api/auth/**")
+
                         .permitAll()
                         .anyRequest()
                         .authenticated()

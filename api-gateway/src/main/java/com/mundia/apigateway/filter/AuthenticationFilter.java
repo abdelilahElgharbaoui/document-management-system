@@ -23,7 +23,9 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         return ((exchange, chain) -> {
             if (routeValidator.isSecured.test(exchange.getRequest())) {
 //header contains token ou non
+                System.out.println("hello");
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
+                    System.out.println(exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION));
                     throw new RuntimeException("Pas d'authorization header");
                 }
                 String authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
@@ -32,11 +34,13 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 }
                 try {
                     jwtUtil.validateToken(authHeader);
+                    System.out.println("token valide");
                 } catch (Exception e) {
                     System.out.println("invalid access...!");
                     throw new RuntimeException("unauthorized access!");
                 }
             }
+            System.out.println("here:"+routeValidator.isSecured.test(exchange.getRequest()));
             return chain.filter(exchange);
         });
     }
