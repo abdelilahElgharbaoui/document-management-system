@@ -11,6 +11,5 @@ public class UserMapper {
         User document = new User();
         BeanUtils.copyProperties(userReq, document);
         return document;
-
     }
 }

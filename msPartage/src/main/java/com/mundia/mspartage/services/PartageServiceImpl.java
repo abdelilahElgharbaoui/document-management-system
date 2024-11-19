@@ -64,12 +64,36 @@ public class PartageServiceImpl implements PartageService {
         return partageRepo.findByUtilisateurId(utilisateurId);
     }
 
+    public List<DocumentDTO> getDocumentsByUserId(Long userId) {
+        // Fetch Partages for the user
+        List<Partage> partages = partageRepo.findByUtilisateurId(userId);
+
+        // Map to DocumentDTO by fetching document details using WebClient
+        return partages.stream().map(partage -> {
+            DocumentDTO document = webClient.get()
+                    .uri("http://MSDOCUMENTS/api/documents/" + partage.getDocumentId())
+                    .retrieve()
+                    .bodyToMono(DocumentDTO.class)
+                    .block(); // Fetch document details
+            return document;
+        }).toList();
+    }
+
     @Override
     public Partage addPartage(Long documentId, Long utilisateurId) {
+        if (documentId == null || utilisateurId == null) {
+            throw new IllegalArgumentException("Document ID and Utilisateur ID cannot be null");
+        }
+
         Partage partage = new Partage();
         partage.setDocumentId(documentId);
         partage.setUtilisateurId(utilisateurId);
-        return partageRepo.save(partage);
+
+        try {
+            return partageRepo.save(partage);
+        } catch (Exception e) {
+            throw new RuntimeException("Error saving partage", e);
+        }
     }
 
     @Override

@@ -14,16 +14,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-@Service
+            @Service
             @RequiredArgsConstructor
             public class AuthenticationService {
                 private final UserRepo userRepo;
                 private final JwtService jwtService;
                 private final AuthenticationManager authenticationManager;
                 private final PasswordEncoder passwordEncoder;
-    private final WebClient webClient;
+                private final WebClient webClient;
 
-    public AuthenticationResponse register(RegisterRequest registerRequest) {
+                public AuthenticationResponse register(RegisterRequest registerRequest) {
+
                     User userReq = User.builder()
                             .nom(registerRequest.getNom())
                             .prenom(registerRequest.getPrenom())
@@ -59,8 +60,14 @@ import org.springframework.web.reactive.function.client.WebClient;
                     );
                     var user = userRepo.findByEmail(authenticationRequest.getEmail())
                             .orElseThrow();
+
+                    System.out.println(user);
                     var jwt = jwtService.generateToken(user);
-                    return AuthenticationResponse.builder().token(jwt).build();
+                    return AuthenticationResponse.builder().token(jwt)
+                            .id(user.getId())
+                            .nom(user.getNom())         // Add user details to the response
+                            .prenom(user.getPrenom())
+                            .email(user.getEmail()).build();
 
                 }
             }

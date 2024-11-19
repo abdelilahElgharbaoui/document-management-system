@@ -10,6 +10,7 @@ public interface DocumentService {
     List<DocumentDTO> getAllDocuments();
     DocumentDTO getDocumentById(long id);
     List<DocumentDTO> getDocumentByTitle(String name);
+    List<DocumentDTO> getDocumentsByProprietaireId(Long proprietaireId);
     Document addDocument(DocumentReq document);
     Document updateDocument(long id,DocumentReq document);
     void deleteDocument(long id);

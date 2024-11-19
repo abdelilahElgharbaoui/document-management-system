@@ -51,12 +51,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public DocumentDTO getDocumentById(long id) {
-//        Optional<Document> optionalDocument=documentRepo.findById(id);
-//        if(optionalDocument.isPresent()){
-//            return optionalDocument.get();
-//        }else{
-//            throw new EntityNotFoundException("Document with id "+id+" not found");
-//        }
+
 
         Optional<Document> optionalDocument = documentRepo.findById(id);
         if(optionalDocument.isPresent()) {
@@ -108,6 +103,19 @@ public class DocumentServiceImpl implements DocumentService {
         }).toList();
     }
 
+    @Override
+    public List<DocumentDTO> getDocumentsByProprietaireId(Long proprietaireId) {
+        // Fetch documents by proprietaireId
+        List<Document> documents = documentRepo.findByProprietaireId(proprietaireId);
+
+        // Convert entities to DTOs and return
+        return documents.stream().map(document -> {
+            DocumentDTO documentDTO = new DocumentDTO();
+            BeanUtils.copyProperties(document, documentDTO);
+            System.out.println(documentDTO);
+            return documentDTO;
+        }).toList();
+    }
     @Override
     public Document addDocument(DocumentReq document) {
         Document document1 = documentMapper.fromDocumentReq(document);

@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface DocumentRepo extends JpaRepository<Document, Long> {
     List<Document> findAllByTitre(String nom);
+    List<Document> findByProprietaireId(Long proprietaireId);
 
 }

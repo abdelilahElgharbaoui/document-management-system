@@ -22,6 +22,13 @@ public class DocumentController {
         return documentService.addDocument(documentReq);
     }
 
+    // pour avoir les documents par proprietaire
+    @GetMapping("/proprietaire/{proprietaireId}")
+    public List<DocumentDTO> getDocumentsByProprietaireId(@PathVariable Long proprietaireId) {
+
+        return documentService.getDocumentsByProprietaireId(proprietaireId);
+    }
+
     // Get a document by ID
     @GetMapping("/{id}")
     public DocumentDTO getDocumentById(@PathVariable Long id) {
